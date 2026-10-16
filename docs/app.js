@@ -2,6 +2,24 @@
 const cfg=window.EVENT, $=id=>document.getElementById(id), form=$('rsvpForm');
 const money=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n);
 $('date').textContent=cfg.dateLabel;$('time').textContent=cfg.time;$('venue').textContent=cfg.venue;
+
+if (cfg.venueAddress) {
+  const venue = $('venue');
+  const landmark = document.createElement('span');
+  landmark.textContent = cfg.venueLandmark || '';
+  const address = document.createElement('span');
+  address.textContent = cfg.venueAddress;
+  const directions = document.createElement('a');
+  directions.href = cfg.venueMapUrl;
+  directions.textContent = 'Get directions';
+  directions.target = '_blank';
+  directions.rel = 'noopener noreferrer';
+  directions.style.display = 'inline-block';
+  directions.style.padding = '10px 0';
+  directions.style.minHeight = '44px';
+  venue.append(document.createElement('br'), landmark, document.createElement('br'), address, document.createElement('br'), directions);
+}
+
 $('rsvpDeadline').textContent=cfg.rsvpDeadlineLabel;$('paymentDeadline').textContent=cfg.paymentDeadlineLabel;
 const live=/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(cfg.endpoint);
 $('preview').hidden=live;if(live)form.action=cfg.endpoint;
